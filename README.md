@@ -1,4 +1,4 @@
-# Git tag version
+# Versioner
 
 This is a language agnostic git versioning tool using tags.
 
