@@ -1,0 +1,3 @@
+[submodule "critic"]
+	path = critic
+	url = https://github.com/Checksum/critic.sh
