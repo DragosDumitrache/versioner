@@ -7,3 +7,16 @@ There are plenty of tools available that can generate a version based on Git tag
 I decided to roll my own to offer a very simple approach at versioning, without any faff or unnecessary requirements.
 
 Most of them follow the SemVer practices
+
+
+How to use the docker container:
+```shell script
+docker run -it -v (pwd):/home --rm dragosd2000/versioner
+```
+
+For a specific version, let's say 1.0.2:
+```shell script
+docker run -it -v (pwd):/home --rm dragosd2000/versioner:1.0.2
+```
+
+Inside your `Jenkinsfiles`, you should be able to define a container pointing to it to use inside your pipeline.
