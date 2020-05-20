@@ -1,0 +1,2 @@
+language: minimal
+script: CRITIC_COVERAGE_DISABLE=true critic/critic.sh test.sh
