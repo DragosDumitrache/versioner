@@ -26,7 +26,6 @@ jobs:
     # Runs a set of commands using the runners shell
     - name: Test and Tags
       run: |
-#        CRITIC_COVERAGE_DISABLE=true critic/critic.sh test.sh
         ls
         git tag -a $(./version.sh) -m $(./version.sh)
         git push --tags
