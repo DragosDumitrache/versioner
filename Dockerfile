@@ -2,11 +2,10 @@ FROM bash
 
 LABEL maintainer="Dragos Dumitrache <dragos@afterburner.dev>"
 
-RUN apk add --no-cache git bash
+RUN apk add --no-cache git bash;
 
-WORKDIR /home
+COPY version.sh /usr/local/bin/versioner
 
-COPY version.sh /home/version.sh
-
-RUN chmod +x /home/version.sh
-ENTRYPOINT [ "/home/version.sh" ]
+WORKDIR /repo
+RUN chmod +x /usr/local/bin/versioner
+CMD [ "versioner" ]
