@@ -12,12 +12,13 @@ Most of them follow the SemVer practices
 
 How to use the docker container:
 ```shell script
-docker run -it -v (pwd):/home --rm dragosd2000/versioner
+docker run -v $(pwd):/repo --rm dragosd2000/versioner
 ```
 
 For a specific version, let's say 1.0.2:
 ```shell script
-docker run -it -v (pwd):/home --rm dragosd2000/versioner:1.0.2
+docker run -v (pwd):/repo --rm dragosd2000/versioner:1.0.16
 ```
 
-Inside your `Jenkinsfiles`, you should be able to define a container pointing to it to use inside your pipeline.
+Inside your `Jenkinsfiles`, you should be able to define a container pointing to it to use inside your pipeline, or
+just invoke the command above inside a docker container.
