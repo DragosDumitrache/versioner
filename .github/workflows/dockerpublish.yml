@@ -26,6 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
           fetch-depth: 0
 
       - name: Run tests
@@ -44,6 +45,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
           fetch-depth: 0
 
       - name: Build image
@@ -65,3 +67,10 @@ jobs:
 
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
+          git tag -a $VERSION -m $VERSION
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tags: true
