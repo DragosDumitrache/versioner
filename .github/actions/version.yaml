@@ -1,11 +1,12 @@
 inputs:
+outputs:
+  version:
+    description: The version tag
 runs:
   using: "docker"
   image: dragosd2000/versioner:latest
   volumes:
     - $GITHUB_WORKSPACE:/repo
-  outputs:
-    version: ${{ steps.tag.outputs.version }}
   steps:
     - uses: actions/checkout@v2
       with:
