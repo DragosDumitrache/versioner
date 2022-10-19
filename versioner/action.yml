@@ -1,14 +1,16 @@
 name: 'versioner'
 description: 'Git Tag versioning'
-inputs:
+
 outputs:
   version:
+    value: ${{ steps.semver.outputs.version }}
     description: The version tag
 runs:
   using: composite
   steps:
     - name: Generate and tag a new version
+      id: semver
+      shell: bash
       run: |
-        version_tag=$(versioner)
-        echo $version_tag
-        echo "::set-output name=version::$version_tag"
+        version_tag=$(./versioner/version.sh)
+        echo "version=$(echo $version_tag)" >> $GITHUB_OUTPUT
