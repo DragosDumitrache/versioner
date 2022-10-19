@@ -26,12 +26,10 @@ function sanitise_version {
     then
         no_extra_patch=${no_sha%-*}
         patch_number=${no_extra_patch##*.}
-
         patch_count=${no_sha#*-*}
         major_minor=${no_sha%.*}
         major=${major_minor%.*}
         minor=${major_minor#*.}
-
         if [[ $major -lt $future_major ]]
         then
             echo "${future_major}.${future_minor}.0"
@@ -66,9 +64,9 @@ function semver {
 
   git_generated_version=$(git describe --always)
 
-  future_major=$(grep "major" version.json | cut -d\" -f4)
-  future_minor=$(grep "minor" version.json | cut -d\" -f4)
-  default_branch=$(grep "default_branch" version.json | cut -d\" -f4)
+  future_major=$(cat version.json | jq ".major" --raw-output)
+  future_minor=$(cat version.json | jq ".minor" --raw-output)
+  default_branch=$(cat version.json | jq ".default_branch" --raw-output)
 
   final_version=$(calculate_version "$git_branch" "$git_generated_version" "$future_major" "$future_minor" "$default_branch")
   echo "$final_version"
@@ -80,10 +78,15 @@ function calculate_version {
   future_major=$3
   future_minor=$4
   default_branch=$5
-
   if [[ ! "${git_generated_version}" =~ ^v?.+\..+\.[^-]+ ]]
   then
-    git_generated_version="${future_major}.${future_minor}.1"
+    if [ "$future_major" == 0 ] && [ "$future_minor" == 0 ]
+    then
+      patch=1
+    else
+      patch=0
+    fi
+    git_generated_version="${future_major}.${future_minor}.${patch}"
   fi
   final_version=$git_generated_version
   if [[ $git_branch == "$default_branch" ]]
