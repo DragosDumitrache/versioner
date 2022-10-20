@@ -25,11 +25,10 @@ function sanitise_version {
     if [[ $no_sha != "$no_v" ]]
     then
         no_extra_patch=${no_sha%-*}
-        patch_number=${no_extra_patch##*.}
-        patch_count=${no_sha#*-*}
-        major_minor=${no_sha%.*}
-        major=${major_minor%.*}
-        minor=${major_minor#*.}
+        patch_count=$(echo "$no_sha" | cut -d '-' -f2)
+        major=$(echo "$no_sha" | cut -d '.' -f1)
+        minor=$(echo "$no_sha" | cut -d '.' -f2)
+        patch_number=$(echo "$no_extra_patch" | cut -d '.' -f3)
         if [[ $major -lt $future_major ]]
         then
             echo "${future_major}.${future_minor}.0"
@@ -39,12 +38,27 @@ function sanitise_version {
                 echo "${major}.${future_minor}.0"
             else
                 new_patch=$((patch_count + patch_number))
-                git_generated_version="${major_minor}.${new_patch}"
+                git_generated_version="${major}.${minor}.${new_patch}"
                 echo "$git_generated_version"
             fi
         fi
     else
-        echo "$no_sha"
+        major=$(echo "$no_sha" | cut -d '.' -f1)
+        minor=$(echo "$no_sha" | cut -d '.' -f2)
+        patch_number=$(echo "$no_sha" | cut -d '.' -f3)
+        if [[ $major -lt $future_major ]]
+            then
+                echo "${future_major}.${future_minor}.0"
+            else
+                if [[ $minor -lt $future_minor ]]
+                then
+                    echo "${major}.${future_minor}.0"
+                else
+                    new_patch=$((1 + patch_number))
+                    git_generated_version="${major}.${minor}.${new_patch}"
+                    echo "$git_generated_version"
+            fi
+        fi
     fi
 }
 function current_branch {
@@ -80,13 +94,7 @@ function calculate_version {
   default_branch=$5
   if [[ ! "${git_generated_version}" =~ ^v?.+\..+\.[^-]+ ]]
   then
-    if [ "$future_major" == 0 ] && [ "$future_minor" == 0 ]
-    then
-      patch=1
-    else
-      patch=0
-    fi
-    git_generated_version="${future_major}.${future_minor}.${patch}"
+    git_generated_version="${future_major}.${future_minor}.0"
   fi
   final_version=$git_generated_version
   if [[ $git_branch == "$default_branch" ]]
