@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - master
-  paths-ignore:
-    - '.github/**'
+    paths-ignore:
+      - '.github/**'
 
 jobs:
   tests:
@@ -17,7 +17,7 @@ jobs:
       - name: Run tests
         run: |
           ./run_tests.sh
-      - uses: ./.github/actions/versioner
+      - uses: ./versioner/
         id: versioner
       - run: |
           git config --global user.email ${{ secrets.EMAIL }}
