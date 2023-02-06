@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-source version.sh
+source /work/lib.sh
 
-source critic/critic.sh
+source critic.sh
 
 
 _describe "Version if not git repo"
