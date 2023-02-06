@@ -7,13 +7,8 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v3
-      with:
-        repository: DragosDumitrache/versioner
-        path: versioner
-        fetch-depth: 0
     - id: versioner
       run: |
-        VERSION=$(./versioner/version.sh)
+        VERSION=$(./version.sh)
         echo "version=$(echo $VERSION)" >> $GITHUB_OUTPUT
       shell: bash
