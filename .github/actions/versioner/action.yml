@@ -9,9 +9,11 @@ runs:
   steps:
     - uses: actions/checkout@v3
       with:
+        repository: DragosDumitrache/versioner
+        path: versioner
         fetch-depth: 0
     - id: versioner
       run: |
-        VERSION=$(./version.sh)
+        VERSION=$(./versioner/version.sh)
         echo "version=$(echo $VERSION)" >> $GITHUB_OUTPUT
       shell: bash
