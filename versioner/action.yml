@@ -12,6 +12,7 @@ runs:
       shell: bash
       working-directory: ${{ github.workspace }}
       run: |
+        echo ${{ github.workspace }}
         curl -o the_versioner https://github.com/DragosDumitrache/versioner/releases/download/2.1.5/version.sh
         chmod +x the_versioner
     - name: Generate and tag a new version
