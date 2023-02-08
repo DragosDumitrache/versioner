@@ -62,7 +62,7 @@ function semver {
   fi
 
   initialise_version
-  git_branch=$(git rev-parse --abbrev-ref HEAD)
+  git_branch=$(git branch --show-current)
 
   # Get the latest tag
   latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
