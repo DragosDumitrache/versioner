@@ -70,7 +70,7 @@ function semver {
   patch=$(echo $latest_tag | cut -d '.' -f 3)
   # Get the list of commits since the latest tag
   commits=$(git rev-list --count $latest_tag..HEAD)
-  new_patch=$(($commits + $patch - 1))
+  new_patch=$(($commits + $patch))
   git_generated_version="${major_minor}.${new_patch}"
   future_major=$(cat version.json | jq ".major" --raw-output)
   future_minor=$(cat version.json | jq ".minor" --raw-output)
