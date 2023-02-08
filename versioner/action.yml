@@ -12,6 +12,6 @@ runs:
       id: semver
       shell: bash
       run: |
-        version_tag=$(./version.sh)
+        version_tag=$(${{ github.action_path }}./versioner/version.sh)
         echo "Version is: $version_tag"
         echo "version=$(echo $version_tag)" >> $GITHUB_OUTPUT
