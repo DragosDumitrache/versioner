@@ -12,7 +12,6 @@ runs:
       shell: bash
       working-directory: ${{ github.workspace }}
       run: |
-        echo ${{ github.workspace }}
         curl -o the_versioner https://github.com/DragosDumitrache/versioner/releases/download/2.1.5/version.sh
         chmod +x the_versioner
     - name: Generate and tag a new version
@@ -20,6 +19,8 @@ runs:
       working-directory: ${{ github.workspace }}
       shell: bash
       run: |
-        version_tag=$(./the_versioner)
-        echo "Version is: $version_tag"
-        echo "version=$(echo $version_tag)" >> $GITHUB_OUTPUT
+        cat the_versioner
+        ./the_versioner
+#        version_tag=$(./the_versioner)
+#        echo "Version is: $version_tag"
+#        echo "version=$(echo $version_tag)" >> $GITHUB_OUTPUT
