@@ -11,6 +11,7 @@ runs:
     - name: Download versioner
       shell: bash
       run: |
+        echo $PWD
         curl -o the_versioner https://github.com/DragosDumitrache/versioner/releases/download/2.1.5/version.sh
         chmod +x the_versioner
     - name: Generate and tag a new version
