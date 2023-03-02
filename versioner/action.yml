@@ -8,10 +8,17 @@ outputs:
 runs:
   using: composite
   steps:
+    - name: Download versioner
+      shell: bash
+      working-directory: ${{ github.workspace }}
+      run: |
+        curl -o the_versioner -L https://github.com/DragosDumitrache/versioner/releases/download/2.2.0/version.sh
+        chmod +x the_versioner
     - name: Generate and tag a new version
       id: semver
+      working-directory: ${{ github.workspace }}
       shell: bash
       run: |
-        version_tag=$(${{ github.action_path }}./versioner/version.sh)
+        version_tag=$(./the_versioner)
         echo "Version is: $version_tag"
         echo "version=$(echo $version_tag)" >> $GITHUB_OUTPUT
