@@ -65,12 +65,18 @@ function semver {
   git_branch=$(git branch --show-current)
 
   # Get the latest tag
-  latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
-  major_minor=$(echo $latest_tag | cut -d '.' -f -2)
-  patch=$(echo $latest_tag | cut -d '.' -f 3)
-  # Get the list of commits since the latest tag
-  commits=$(git rev-list --count $latest_tag..HEAD)
-  new_patch=$(($commits + $patch))
+  latest_tag=$(git tag -l --sort=-creatordate | head -n 1)
+  if [ $latest_tag ]; then
+
+    major_minor=$(echo "$latest_tag" | cut -d '.' -f -2)
+    patch=$(echo "$latest_tag" | cut -d '.' -f 3)
+    # Get the list of commits since the latest tag
+    commits=$(git rev-list --count "$latest_tag"..HEAD)
+    # shellcheck disable=SC2004
+    new_patch=$(($commits + $patch))
+  else
+    new_patch=$patch
+  fi
   git_generated_version="${major_minor}.${new_patch}"
   future_major=$(cat version.json | jq ".major" --raw-output)
   future_minor=$(cat version.json | jq ".minor" --raw-output)

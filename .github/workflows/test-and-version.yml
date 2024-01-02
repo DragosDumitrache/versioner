@@ -21,10 +21,10 @@ jobs:
         run: |
           ./run_tests.sh
       - uses: ./versioner/
-        if: github.ref == 'ref/heads/master'
+        if: ${{ github.ref == 'refs/heads/master' }}
         id: versioner
       - name: publish tag
-        if: github.ref == 'ref/heads/master'
+        if: ${{ github.ref == 'refs/heads/master' }}
         run: |
           git config --global user.email ${{ secrets.EMAIL }}
           git config --global user.name ${{ secrets.NAME }}
