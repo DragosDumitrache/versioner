@@ -17,9 +17,9 @@ runs:
       shell: bash
       working-directory: ${{ github.workspace }}
       run: |
-        ln -s versioner/version.sh /usr/local/bin/the_versioner
-#        curl -o the_versioner -L https://github.com/DragosDumitrache/versioner/releases/download/2.2.1/version.sh
+        ln -s ${{ github.workspace }}/versioner/version.sh /usr/local/bin/the_versioner
         chmod +x /usr/local/bin/the_versioner
+#        curl -o the_versioner -L https://github.com/DragosDumitrache/versioner/releases/download/2.2.1/version.sh
     - name: Generate and tag a new version
       id: semver
       working-directory: ${{ github.workspace }}

@@ -21,7 +21,6 @@ jobs:
         run: |
           ./run_tests.sh
       - uses: ./versioner/
-        if: ${{ github.ref == 'refs/heads/master' }}
         id: versioner
       - name: publish tag
         if: ${{ github.ref == 'refs/heads/master' }}
