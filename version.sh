@@ -65,6 +65,7 @@ function semver {
   git_branch=$(git branch --show-current)
   if [[ ! $git_branch ]]; then
     git branch
+    echo "$GITHUB_REF"
     git_branch=$(git rev-parse --abbrev-ref HEAD)
   fi
 
