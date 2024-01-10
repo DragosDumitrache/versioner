@@ -8,6 +8,11 @@ outputs:
 runs:
   using: composite
   steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        repository: DragosDumitrache/versioner
+        ref: 2.2.1
     - name: Download versioner
       shell: bash
       working-directory: ${{ github.workspace }}

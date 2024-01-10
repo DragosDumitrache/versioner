@@ -63,6 +63,9 @@ function semver {
 
   initialise_version
   git_branch=$(git branch --show-current)
+  if [[ ! $git_branch ]]; then
+    git_branch=$(git rev-parse --abbrev-ref HEAD)
+  fi
 
   # Get the latest tag
   latest_tag=$(git tag -l --sort=-creatordate | head -n 1)
