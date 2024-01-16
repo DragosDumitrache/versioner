@@ -79,7 +79,7 @@ function calculate_version {
 function extract_branch_name {
   git_branch=$(git branch --show-current)
   if [[ ! $git_branch ]]; then
-    git_branch=$(git rev-parse --abbrev-ref HEAD)
+    git_branch=$(git name-rev --name-only $(git show -s --format=%H))
   fi
   echo $git_branch
 }
