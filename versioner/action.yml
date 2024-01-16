@@ -12,7 +12,7 @@ runs:
       with:
         repository: DragosDumitrache/versioner
         ref: cleanup
-        path: /versioner
+        path: tools
 #        ref: ${{ github.event.pull_request.head.sha }}
 #
 #    - name: Download versioner
@@ -26,6 +26,6 @@ runs:
       working-directory: ${{ github.workspace }}
       shell: bash
       run: |
-        version_tag=$(./versioner/version.sh)
+        version_tag=$(./tools/version.sh)
         echo "Version is: $version_tag"
         echo "version=$(echo $version_tag)" >> $GITHUB_OUTPUT
