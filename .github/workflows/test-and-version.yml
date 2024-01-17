@@ -25,7 +25,9 @@ jobs:
           fetch-depth: 0
       - name: Run tests
         run: |
-          ./run_tests.sh
+          sudo apt-get upgrade && apt-get update
+          sudo apt-get install -y bats
+          ./test.sh
       - uses: ./versioner/
         id: versioner
       - name: publish tag
