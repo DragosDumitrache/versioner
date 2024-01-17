@@ -53,10 +53,13 @@ function _calculate_version {
 function _extract_branch_name {
   git_branch=$(git branch --show-current)
   if [[ ! $git_branch ]]; then
-    git_branch=$(git name-rev --name-only $(git show -s --format=%H))
-    to_remove="remotes/origin/"
-    git_branch=${git_branch/$to_remove/""}
+    git_branch="$(git name-rev --name-only $(git show -s --format=%H))"
   fi
+  git_branch=${git_branch/$to_remove/""}
+  to_remove="remotes/origin/"
+  git_branch=${git_branch/$to_remove/""}
+  to_remove="remotes/heads/"
+  git_branch=${git_branch////"-"}
   echo $git_branch
 }
 
