@@ -54,6 +54,8 @@ function _extract_branch_name {
   git_branch=$(git branch --show-current)
   if [[ ! $git_branch ]]; then
     git_branch=$(git name-rev --name-only $(git show -s --format=%H))
+    to_remove="remotes/origin/"
+    git_branch=${git_branch/$to_remove/""}
   fi
   echo $git_branch
 }
@@ -62,7 +64,6 @@ function semver {
   local git_branch latest_tag major_minor patch commits new_patch  default_branch final_version
   local next_major next_minor next_patch next_version
   is_git_repo=$1
-  git_branch=$2
 
   if [ "$is_git_repo" ]; then
     echo "1.0.0-SNAPSHOT"
@@ -72,9 +73,7 @@ function semver {
   # If no version.json file is present, add it, then proceed to calculate the version
   _initialise_version
 
-  if [ -z "$git_branch" ]; then
-    git_branch=$(_extract_branch_name)
-  fi
+  git_branch=$(_extract_branch_name)
 
   next_major=$(cat version.json | jq ".major" --raw-output)
   next_minor=$(cat version.json | jq ".minor" --raw-output)
@@ -101,5 +100,5 @@ function semver {
 
 
 if [ "${BASH_SOURCE[0]}" = "$0" ]; then
-  semver "$(_is_git_repository)" $1
+  semver "$(_is_git_repository)"
 fi
