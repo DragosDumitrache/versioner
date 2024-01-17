@@ -13,14 +13,22 @@ runs:
         repository: DragosDumitrache/versioner
         ref: 2.2.5
         path: tools
-    - name: Get branch names.
-      id: branch-names
-      uses: tj-actions/branch-names@v8
+    - name: Set branch name
+      id: set-branch
+      shell: bash
+      run: |
+        if [ ${{ github.event }} == "pull_request" ]; then
+          current_branch=$(echo ${{ env.GITHUB_HEAD_REF }} | cut -d '/' -f3-) 
+          echo "current_branch=$current_branch" >> $GITHUB_OUTPUT
+        else
+          current_branch=$(echo ${{ env.GITHUB_REF_NAME }} | cut -d '/' -f3-)
+          echo "current_branch=$current_branch" >> $GITHUB_OUTPUT
+        fi
     - name: Generate and tag a new version on a PR
       id: semver
       working-directory: ${{ github.workspace }}
       shell: bash
       run: |
-        version_tag=$(./tools/version.sh ${{ steps.branch-names.outputs.current_branch }})
+        version_tag=$(./tools/version.sh ${{ steps.set-branch.outputs.current_branch }})
         echo "Version is: $version_tag"
         echo "version=$(echo $version_tag)" >> $GITHUB_OUTPUT
