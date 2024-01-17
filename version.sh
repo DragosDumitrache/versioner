@@ -62,6 +62,7 @@ function semver {
   local git_branch latest_tag major_minor patch commits new_patch  default_branch final_version
   local next_major next_minor next_patch next_version
   is_git_repo=$1
+  directory=$2
 
   if [ "$is_git_repo" ]; then
     echo "1.0.0-SNAPSHOT"
@@ -72,31 +73,40 @@ function semver {
   _initialise_version
 
   git_branch=$(_extract_branch_name)
-
-  next_major=$(cat version.json | jq ".major" --raw-output)
-  next_minor=$(cat version.json | jq ".minor" --raw-output)
+  next_major=$(cat "$directory/version.json" | jq ".major" --raw-output)
+  next_minor=$(cat "$directory/version.json" | jq ".minor" --raw-output)
+#  echo "Next Major is ${next_major}"
   next_patch=0
-  default_branch=$(cat version.json | jq ".default_branch" --raw-output)
+  default_branch=$(cat "$directory/version.json" | jq ".default_branch" --raw-output)
 
   # Get the latest tag
   latest_tag=$(git tag -l --sort=-creatordate | head -n 1)
   if [ $latest_tag ]; then
-    major_minor=$(echo "$latest_tag" | cut -d '.' -f -2)
-    patch=$(echo "$latest_tag" | cut -d '.' -f 3)
-    # Get the list of commits since the latest tag
-    commits=$(git rev-list --count "$latest_tag"..HEAD)
-    # shellcheck disable=SC2004
-    next_patch=$(($commits + $patch))
-    next_version="${major_minor}.${next_patch}"
-  else
-    next_version="${next_major}.${next_minor}.${next_patch}"
+#    major_minor=$(echo "$latest_tag" | cut -d '.' -f -2)
+    major=$(echo "$final_version" | cut -d '.' -f1)
+    minor=$(echo "$final_version" | cut -d '.' -f2)
+    patch_number=$(echo "$final_version" | cut -d '.' -f3)
+    if [[ $major -lt $next_major ]]; then
+        next_patch=0
+    else
+      if [[ $minor -lt $next_minor ]]; then
+        next_patch=0
+      else
+        patch=$(echo "$latest_tag" | cut -d '.' -f 3)
+          # Get the list of commits since the latest tag
+          commits=$(git rev-list --count "$latest_tag"..HEAD)
+          # shellcheck disable=SC2004
+          next_patch=$(($commits + $patch))
+      fi
+    fi
   fi
-
+  next_version="${next_major}.${next_minor}.${next_patch}"
   final_version=$(_calculate_version "$git_branch" "$next_version" "$next_major" "$next_minor" "$default_branch")
+  echo $"Next version is ${final_version}"
   echo "$final_version"
 }
 
 
 if [ "${BASH_SOURCE[0]}" = "$0" ]; then
-  semver "$(_is_git_repository)"
+  semver "$(_is_git_repository)" $1
 fi
