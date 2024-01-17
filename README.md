@@ -23,7 +23,7 @@ configuration driven.
 Inside your GHA pipeline, simply add the following step:
 
 ```yaml
-    - uses: DragosDumitrache/versioner/versioner@v2.4.1
+    - uses: DragosDumitrache/versioner/versioner@v2.5.1
 ```
 
 Incrementing the `major` or `minor` versions is done simply through a bump in your project's
