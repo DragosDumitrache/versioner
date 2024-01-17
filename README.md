@@ -1,24 +1,33 @@
-# Versioner 
+# Versioner
 
 This is a language agnostic git versioning tool using tags.
 
-![build-status](https://travis-ci.com/DragosDumitrache/versioner.svg?branch=master)
 ## Why this repo
-There are plenty of tools available that can generate a version based on Git tags, or viceversa.
-I decided to roll my own to offer a very simple approach at versioning, without any faff or unnecessary requirements.
 
-Most of them follow the SemVer practices
+There are plenty of tools available that can generate a version based on Git tags.
+However, they are typically:
 
+- driven by commit messages, not configuration
+- dependent on programming languages
 
-How to use the docker container:
-```shell script
-docker run -v $(pwd):/repo --rm dragosd2000/versioner
+I didn't want to have to introduce a programming language into my pipeline, especially when it was a language that had
+absolutely nothing to do with my pipeline, e.g. using an action implemented in JS in a Python project.
+I also didn't feel like commit messages were the way to go, typos happen, and then someone needs to go and update it
+manually.
+
+The aim has been to have a very simple approach at versioning without introducing new dependencies, and for it to be
+configuration driven.
+
+## How to use it
+
+Inside your GHA pipeline, simply add the following step:
+
+```yaml
+    - uses: DragosDumitrache/versioner@v2.3.0
 ```
 
-For a specific version, let's say 1.0.2:
-```shell script
-docker run -v (pwd):/repo --rm dragosd2000/versioner:1.0.16
-```
+Incrementing the `major` or `minor` versions is done simply through a bump in your project's
+corresponding `version.json` file. When this happens, the `patch` number is reset to 0. In all other cases, the `patch`
+version is incrementally calculated from the number of commits added since the previous patch. For consecutive patches,
+this approach works best with the `Squash and Merge` strategy.
 
-Inside your `Jenkinsfiles`, you should be able to define a container pointing to it to use inside your pipeline, or
-just invoke the command above inside a docker container.
