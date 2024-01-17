@@ -11,16 +11,8 @@ runs:
     - uses: actions/checkout@v4
       with:
         repository: DragosDumitrache/versioner
-        ref: cleanup
+        ref: master
         path: tools
-#        ref: ${{ github.event.pull_request.head.sha }}
-#
-#    - name: Download versioner
-#      shell: bash
-#      working-directory: ${{ github.workspace }}
-#      run: |
-#        curl -o the_versioner -L https://github.com/DragosDumitrache/versioner/releases/download/2.2.3/version.sh
-#        chmod +x the_versioner
     - name: Generate and tag a new version
       id: semver
       working-directory: ${{ github.workspace }}
