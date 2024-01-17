@@ -11,9 +11,9 @@ runs:
     - uses: actions/checkout@v4
       with:
         repository: DragosDumitrache/versioner
-        ref: 2.2.5
+        ref: pass-in-git-branch
         path: tools
-    - name: Generate and tag a new version
+    - name: Generate and tag a new version on a PR
       id: semver
       working-directory: ${{ github.workspace }}
       shell: bash
