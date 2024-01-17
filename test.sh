@@ -44,25 +44,25 @@ source ./version.sh
 
 @test "Version on second commit on feature branch" {
   result=$(_calculate_version "feature" "0.0.1-1-aaghas27" "0" "0" "master")
-  [ "$result" == "0.0.1-1-aaghas27-feature" ]
+  [ "$result" == "0.0.1-1-aaghas27+feature" ]
 }
 
 @test "Version on fifth commit on feature branch" {
   result=$(_calculate_version "feature" "0.0.1-5-aaghas27" "0" "0" "master")
-  [ "$result" == "0.0.1-5-aaghas27-feature" ]
+  [ "$result" == "0.0.1-5-aaghas27+feature" ]
 }
 
 @test "Version on feature branch with different minor" {
   result=$(_calculate_version "feature" "0.0.1-5-aaghas27" "0" "1" "master")
-  [ "$result" == "0.0.1-5-aaghas27-feature" ]
+  [ "$result" == "0.0.1-5-aaghas27+feature" ]
 }
 
 @test "Version on feature branch with different major" {
   result=$(_calculate_version "feature" "0.0.1-5-aaghas27" "1" "0" "master")
-  [ "$result" == "0.0.1-5-aaghas27-feature" ]
+  [ "$result" == "0.0.1-5-aaghas27+feature" ]
 }
 
 @test "Version on feature branch with different major and minor" {
   result=$(_calculate_version "feature" "0.0.1-5-aaghas27" "1" "1" "master")
-  [ "$result" == "0.0.1-5-aaghas27-feature" ]
+  [ "$result" == "0.0.1-5-aaghas27+feature" ]
 }
