@@ -1,6 +1,10 @@
 name: 'versioner'
 description: 'Git Tag versioning'
 
+inputs:
+  directory:
+    description: "The working directory to run this in"
+    default: ${{ github.workspace }}
 outputs:
   version:
     value: ${{ steps.semver.outputs.version }}
@@ -15,7 +19,7 @@ runs:
         path: tools
     - name: Generate and tag a new version
       id: semver
-      working-directory: ${{ github.workspace }}
+      working-directory: ${{ inputs.directory }}
       shell: bash
       run: |
         version_tag=$(./tools/version.sh)
