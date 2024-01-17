@@ -11,7 +11,7 @@ runs:
     - uses: actions/checkout@v4
       with:
         repository: DragosDumitrache/versioner
-        ref: master
+        ref: 2.2.5
         path: tools
     - name: Generate and tag a new version
       id: semver
