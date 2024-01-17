@@ -45,7 +45,7 @@ function _calculate_version {
       fi
     fi
   else
-    final_version="${git_generated_version}-${git_branch}"
+    final_version="${git_generated_version}+${git_branch}"
   fi
   echo "$final_version" | tr -d '[:space:]'
 }
