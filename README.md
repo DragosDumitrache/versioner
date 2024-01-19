@@ -31,3 +31,4 @@ corresponding `version.json` file. When this happens, the `patch` number is rese
 version is incrementally calculated from the number of commits added since the previous patch. For consecutive patches,
 this approach works best with the `Squash and Merge` strategy.
 
+
