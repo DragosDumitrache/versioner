@@ -94,6 +94,9 @@ function semver {
     next_patch=$(($commits + $patch))
     next_version="${major_minor}.${next_patch}"
   else
+    commits=$(git rev-list --all --count)
+    # shellcheck disable=SC2004
+    next_patch=$commits
     next_version="${next_major}.${next_minor}.${next_patch}"
   fi
 
