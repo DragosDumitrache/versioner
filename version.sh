@@ -89,7 +89,11 @@ function semver {
     major_minor=$(echo "$latest_tag" | cut -d '.' -f -2)
     patch=$(echo "$latest_tag" | cut -d '.' -f 3)
     # Get the list of commits since the latest tag
-    commits=$(git rev-list --count "$latest_tag"..HEAD)
+    if [ "$git_branch" != "$default_branch" ]; then
+      commits=$(git rev-list --count "$latest_tag"..HEAD --all)
+    else
+      commits=$(git rev-list --count "$latest_tag"..HEAD)
+    fi
     # shellcheck disable=SC2004
     next_patch=$(($commits + $patch))
     next_version="${major_minor}.${next_patch}"
