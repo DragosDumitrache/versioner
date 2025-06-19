@@ -21,6 +21,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y bats jq
+
       - name: Calculate version
         id: version
         run: |
@@ -43,8 +48,8 @@ jobs:
 
       - name: Run tests
         run: |
-          chmod +x test.sh
-          ./test.sh
+          chmod +x version.sh
+          bats test.sh
 
       - name: Verify action works
         run: |
