@@ -13,7 +13,6 @@ jobs:
 
     outputs:
       version: ${{ steps.version.outputs.version }}
-      branch: ${{ steps.version.outputs.branch }}
       is-prerelease: ${{ steps.version.outputs.is-prerelease }}
 
     steps:
@@ -29,12 +28,22 @@ jobs:
 
       - name: Calculate version
         id: version
-        uses: ./versioner
+        run: |
+          chmod +x version.sh
+          VERSION=$(./version.sh)
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          
+          # Check if pre-release
+          if [[ "$VERSION" =~ -dev\. ]]; then
+            echo "is-prerelease=true" >> $GITHUB_OUTPUT
+          else
+            echo "is-prerelease=false" >> $GITHUB_OUTPUT
+          fi
+
 
       - name: Display version info
         run: |
           echo "🏷️ Building version: ${{ steps.version.outputs.version }}"
-          echo "🌿 Branch: ${{ steps.version.outputs.branch }}"
           echo "🚀 Pre-release: ${{ steps.version.outputs.is-prerelease }}"
 
       - name: Run tests
@@ -50,7 +59,7 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     needs: test
-    if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && needs.test.outputs.is-prerelease == 'false'
+    if: github.ref == 'refs/heads/master' && needs.test.outputs.is-prerelease == 'false'
 
     steps:
       - name: Checkout
