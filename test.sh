@@ -15,7 +15,6 @@ source ./version.sh
 @test "Version on first commit default branch" {
   # New signature: _calculate_version "$git_branch" "$git_generated_version" "$next_major" "$next_minor" "$default_branch" "$short_sha"
   result=$(_calculate_version "master" "0.0.0" "0" "0" "master" "vskd341")
-  echo $result
   [ "$result" == "0.0.0" ]
 }
 
