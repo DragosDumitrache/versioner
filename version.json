@@ -1,5 +1,7 @@
 {
   "default_branch": "master",
   "major": "2",
-  "minor": "7"
+  "minor": "8",
+  "tag_prefix": "",
+  "include_v_prefix": false
 }
