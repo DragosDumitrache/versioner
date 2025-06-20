@@ -168,7 +168,12 @@ function _get_git_data() {
 
 # Check if current commit has uncommitted changes
 function _has_dirty_working_tree() {
-  ! git diff-index --quiet HEAD -- 2>/dev/null
+  # Check for changes in the working directory
+  if ! git diff --quiet 2>/dev/null; then
+    return 0  # Has unstaged changes
+  fi
+
+  return 1  # Clean working tree
 }
 
 # Main versioning function
