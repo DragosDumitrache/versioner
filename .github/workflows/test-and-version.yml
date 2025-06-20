@@ -98,4 +98,4 @@ jobs:
           # Create GitHub release
           gh release create "${VERSION}" \
             --title "Release ${VERSION}" \
-            --notes "## Versioner ${VERSION}
+            --notes "## Versioner ${VERSION}"
