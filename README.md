@@ -51,8 +51,7 @@ A bash script that calculates semantic versions from git tags and branches, with
      "default_branch": "main",
      "major": "1",
      "minor": "0",
-     "tag_prefix": "v",
-     "include_v_prefix": true
+     "tag_prefix": "v"
    }
    ```
 
@@ -70,8 +69,7 @@ The `version.json` file supports the following options:
 | `default_branch` | Main branch name | `"master"` | `"main"`, `"master"` |
 | `major` | Minimum major version | `"0"` | `"1"`, `"2"` |
 | `minor` | Minimum minor version | `"0"` | `"0"`, `"5"` |
-| `tag_prefix` | Prefix for git tags | `""` | `"v"`, `"release-"` |
-| `include_v_prefix` | Include v in output | `false` | `true`, `false` |
+| `tag_prefix` | Prefix for tags and output | `""` | `"v"`, `"release-"` |
 
 ### Version Behavior
 
@@ -165,14 +163,13 @@ git commit -m "Improve API"
   "default_branch": "main",
   "major": "0",
   "minor": "1", 
-  "tag_prefix": "",
-  "include_v_prefix": false
+  "tag_prefix": ""
 }
 ```
 
 ```bash
 ./version.sh
-# Output: 0.1.0 (no "v" prefix)
+# Output: 0.1.0 (no prefix)
 ```
 
 ### Integration Examples
@@ -266,26 +263,23 @@ The script automatically normalizes branch names:
 
 #### Tag Prefix Examples
 ```json
-// Docker-style tags
+// With v prefix
 {
-  "tag_prefix": "v",
-  "include_v_prefix": true
+  "tag_prefix": "v"
 }
 // Result: v1.2.3
 
 // No prefix
 {
-  "tag_prefix": "", 
-  "include_v_prefix": false
+  "tag_prefix": ""
 }
 // Result: 1.2.3
 
 // Custom prefix
 {
-  "tag_prefix": "release-",
-  "include_v_prefix": false  
+  "tag_prefix": "release-"
 }
-// Result: 1.2.3 (but looks for release-1.2.2 tags)
+// Result: release-1.2.3
 ```
 
 #### Version Constraints

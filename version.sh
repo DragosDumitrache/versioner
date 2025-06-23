@@ -10,8 +10,7 @@ function _initialise_version() {
   "default_branch": "master",
   "major": "0",
   "minor": "0",
-  "tag_prefix": "",
-  "include_v_prefix": false
+  "tag_prefix": ""
 }
 EOF
   fi
@@ -189,13 +188,12 @@ function semver() {
   _initialise_version
 
   # Read configuration
-  local default_branch next_major next_minor tag_prefix include_v_prefix
+  local default_branch next_major next_minor tag_prefix
 
   default_branch=$(jq -r '.default_branch // "master"' version.json)
   next_major=$(jq -r '.major // "0"' version.json)
   next_minor=$(jq -r '.minor // "0"' version.json)
   tag_prefix=$(jq -r '.tag_prefix // ""' version.json)
-  include_v_prefix=$(jq -r '.include_v_prefix // false' version.json)
 
   # Get current branch and SHA
   local git_branch short_sha
@@ -225,9 +223,9 @@ function semver() {
     fi
   fi
 
-  # Add v prefix if configured
-  if [[ "$include_v_prefix" == "true" ]]; then
-    final_version="v${final_version}"
+  # Add tag prefix if configured
+  if [[ -n "$tag_prefix" ]]; then
+    final_version="${tag_prefix}${final_version}"
   fi
 
   echo "$final_version"
